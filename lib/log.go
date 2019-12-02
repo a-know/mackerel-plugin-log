@@ -59,7 +59,7 @@ func (opts *logOpts) GraphDefinition() map[string]mp.Graphs {
 	filename = strings.Replace(filename, ".", "-", -1)
 	return map[string]mp.Graphs{
 		filename: {
-			Label: labelPrefix + " detect Num",
+			Label: labelPrefix + filename + " detect Num",
 			Unit:  "integer",
 			Metrics: []mp.Metrics{
 				{Name: "detect_num", Label: "Detect Lines"},
