@@ -265,26 +265,28 @@ func (opts *logOpts) searchReader(rdr io.Reader) (matchNum, readBytes int64, err
 
 	var errLinesBuilder strings.Builder
 	r := newReader(rdr)
-	lineBytes, rErr := r.ReadBytes('\n')
-	if rErr != nil {
-		if rErr != io.EOF {
-			err = rErr
+	for {
+		lineBytes, rErr := r.ReadBytes('\n')
+		if rErr != nil {
+			if rErr != io.EOF {
+				err = rErr
+			}
+			break
 		}
-		return
-	}
-	readBytes += int64(len(lineBytes))
+		readBytes += int64(len(lineBytes))
 
-	if opts.decoder != nil {
-		lineBytes, err = opts.decoder.Bytes(lineBytes)
-		if err != nil {
-			return
+		if opts.decoder != nil {
+			lineBytes, err = opts.decoder.Bytes(lineBytes)
+			if err != nil {
+				break
+			}
 		}
-	}
-	line := strings.Trim(string(lineBytes), "\r\n")
-	if matched, _ := opts.match(line); matched {
-		matchNum++
-		errLinesBuilder.WriteString(line)
-		errLinesBuilder.WriteString("\n")
+		line := strings.Trim(string(lineBytes), "\r\n")
+		if matched, _ := opts.match(line); matched {
+			matchNum++
+			errLinesBuilder.WriteString(line)
+			errLinesBuilder.WriteString("\n")
+		}
 	}
 
 	errLines = errLinesBuilder.String()
