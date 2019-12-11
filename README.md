@@ -3,7 +3,7 @@
 ## Install
 
 ```sh
-% mkr plugin install a-know/mackerel-plugin-log
+% mkr plugin install mackerel-plugin-log
 ```
 
 ## Setting
