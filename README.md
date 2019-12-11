@@ -10,7 +10,5 @@
 
 ```
 [plugin.metrics.log-detect]
-command = '''
-/path/to/mackerel-plugin-log --file /path/to/app.log --pattern "ERROR" --exclude "retry"
-'''
+command = ["/path/to/mackerel-plugin-log", "--file", "/path/to/app.log", "--pattern", "ERROR", "--exclude", "retry"]
 ```
